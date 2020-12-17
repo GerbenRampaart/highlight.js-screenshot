@@ -1,0 +1,35 @@
+{
+  "name": "highlight.js-screenshot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "compile": "tsc -p . --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "highlight.js": "^10.4.0",
+    "puppeteer": "^5.5.0",
+    "app-root-path": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/jest": "^26.0.19",
+    "@types/node": "^14.14.14",
+    "@types/puppeteer": "^5.4.2",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.4.4",
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^3.4.3"
+  }
+}
