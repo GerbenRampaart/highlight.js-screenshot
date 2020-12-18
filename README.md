@@ -17,9 +17,15 @@ const result = await highlightScreenshotToPath(
 );
 ```
 
-This will be the result:
+Here are some examples from different languages with different themes:
 
-![Alt text](README.md_images/javascript.png?raw=true "Sample")
+![Alt text](README.md_images/javascript.png?raw=true "Javascript")
+
+![Alt text](README.md_images/csharp.png?raw=true "CSharp")
+
+![Alt text](README.md_images/json.png?raw=true "JSON")
+
+![Alt text](README.md_images/xml.png?raw=true "Xml")
 
 You can also use highlightScreenshotToBuffer. Which just returns the buffer of the image and does not write it to disk.
 
