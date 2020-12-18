@@ -1,6 +1,6 @@
 {
   "name": "highlight.js-screenshot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Takes screenshots from a piece of code formatted by highlight.js using puppeteer",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
