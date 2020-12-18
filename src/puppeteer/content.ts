@@ -1,21 +1,22 @@
-export const content = (code: string, css: string, lang: string) => {
+export const content = (code: string, css: string, lang: string, includeHeader: boolean) => {
+    const msg = `${lang} ${new Date().toLocaleString()}`;
     return `
         <html>
             <style>
-                div.topbar {
-                    height: 20px;
+                p.topbar {
                     width: 100%;
                     background-color: #749fb8;
                     margin: 0px;
-                    padding: 0px;
+                    padding: 5px;
                     text-align:center;
+                    font-family: Arial, Helvetica, sans-serif;
                 }
                 ${css}
             </style>
             <body>
                 <div id='code_block' style='display:inline-block;'>
-                    <div class='topbar'>test</div>
-                    <div class='hljs ${lang}' style='display:inline-block;padding:3em;'>
+                    ${ includeHeader ? '<p class=\'topbar\'>' + msg +'</p>' : '' }
+                    <div class='hljs ${lang}' style='padding:1em;'>
                         <pre>
                             <code>
                                 ${code}

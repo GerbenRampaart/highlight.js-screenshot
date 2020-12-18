@@ -1,13 +1,4 @@
-import { highlightAuto } from "highlight.js";
 
+import { highlightScreenshotToPath } from "./highlightScreenshot";
 
-(async () => {
-
-    let html = highlightAuto(`
-`, [
-          'csharp'
-      ]);
-
-    
-    
-})();
+//export highlightScreenshotToPath;

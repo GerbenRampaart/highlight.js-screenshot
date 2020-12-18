@@ -12,11 +12,11 @@ export interface HighlightScreenshotResult {
     themeUsed: string;
 }
 
-export const highlightScreenshotToBuffer = async (code: string, themeName?: string, languages?: string[]): Promise<HighlightScreenshotResult> => {
+export const highlightScreenshotToBuffer = async (code: string, includeHeader = true, themeName: string = 'default', languages?: string[]): Promise<HighlightScreenshotResult> => {
     const highlighted = highlightAuto(code, languages);
 
     const themes = await getThemes();
-    const theme = await getThemeContent(themes, themeName || 'default');
+    const theme = await getThemeContent(themes, themeName);
 
     if (!highlighted.language) {
         return {
@@ -26,7 +26,7 @@ export const highlightScreenshotToBuffer = async (code: string, themeName?: stri
         };
     }
 
-    const htmlString = content(highlighted.value, theme, highlighted.language);
+    const htmlString = content(highlighted.value, theme, highlighted.language, includeHeader);
     const buffer = await screenshot(htmlString);
 
     return {
@@ -36,8 +36,8 @@ export const highlightScreenshotToBuffer = async (code: string, themeName?: stri
     }
 }
 
-export const highlightScreenshotToPath = async (code: string, path: string, themeName?: string, languages?: string[]): Promise<HighlightScreenshotResult> => {
-    const result = await highlightScreenshotToBuffer(code, themeName, languages);
+export const highlightScreenshotToPath = async (code: string, path: string, includeHeader = true, themeName: string = 'default', languages?: string[]): Promise<HighlightScreenshotResult> => {
+    const result = await highlightScreenshotToBuffer(code, includeHeader, themeName, languages);
 
     if (result.buffer) {
         await promises.writeFile(path, result.buffer, "utf-8");
