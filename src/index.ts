@@ -1,4 +1,1 @@
-
-import { highlightScreenshotToPath } from "./highlightScreenshot";
-
-//export highlightScreenshotToPath;
+export * from './highlightScreenshot';

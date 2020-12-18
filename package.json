@@ -1,15 +1,30 @@
 {
   "name": "highlight.js-screenshot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "compile": "tsc -p . --noEmit"
+  "version": "1.0.1",
+  "description": "Takes screenshots from a piece of code formatted by highlight.js using puppeteer",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GerbenRampaart/highlight.js-screenshot.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "highlight.js", "puppeteer", "code", "screenshot"],
+  "author": "Gerben Rampaart",
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
+    "compile": "tsc -p . --noEmit",
+    "build": "tsc -p .",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "postversion" : "git push && git push --tags"
+  },
+  "engines": {
+    "node": ">=8.10.x"
+  },
   "license": "ISC",
   "dependencies": {
     "highlight.js": "^10.4.0",
@@ -31,5 +46,8 @@
     "ts-jest": "^26.4.4",
     "ts-node-dev": "^1.1.1",
     "typescript": "^3.4.3"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }

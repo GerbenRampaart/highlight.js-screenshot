@@ -15,11 +15,11 @@ export const content = (code: string, css: string, lang: string, includeHeader: 
             </style>
             <body>
                 <div id='code_block' style='display:inline-block;'>
-                    ${ includeHeader ? '<p class=\'topbar\'>' + msg +'</p>' : '' }
+                    ${includeHeader ? "<p class='topbar'>" + msg + '</p>' : ''}
                     <div class='hljs ${lang}' style='padding:1em;'>
                         <pre>
                             <code>
-                                ${code}
+${code}
                             </code>
                         </pre>
                     </div>
@@ -27,4 +27,4 @@ export const content = (code: string, css: string, lang: string, includeHeader: 
             </body>
         </html>
     `;
-}
+};

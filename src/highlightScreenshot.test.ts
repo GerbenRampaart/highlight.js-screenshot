@@ -1,7 +1,7 @@
-import { path } from "app-root-path";
-import { join } from "path";
-import { highlightScreenshotToPath } from "./highlightScreenshot";
-import { getThemes } from "./themes/getThemes";
+import { path } from 'app-root-path';
+import { join } from 'path';
+import { highlightScreenshotToPath } from './highlightScreenshot';
+import { getThemes } from './themes/getThemes';
 
 const testPath = (fileName: string): string => join(path, 'images', fileName);
 
@@ -9,12 +9,24 @@ const testTheme = async (): Promise<string> => {
     const themes = await getThemes();
     const randomTheme = themes[Math.floor(Math.random() * themes.length)];
     return randomTheme.name;
-}
-
+};
 
 describe('Trying some code', () => {
+    test('Test javascript', async () => {
+        const result = await highlightScreenshotToPath(
+            `console.log('test');`,
+            testPath('javascript.png'),
+            true,
+            await testTheme(),
+            ['javascript'],
+        );
+
+        expect(result.buffer).toBeDefined();
+    });
+
     test('Test JSON', async () => {
-        const result = await highlightScreenshotToPath(`
+        const result = await highlightScreenshotToPath(
+            `
 {
     "glossary": {
         "title": "example glossary",
@@ -36,13 +48,18 @@ describe('Trying some code', () => {
             }
         }
     }
-}`, testPath('json.png'), true, await testTheme());
+}`,
+            testPath('json.png'),
+            true,
+            await testTheme(),
+        );
 
         expect(result.buffer).toBeDefined();
     });
 
     test('Test CSharp', async () => {
-        const result = await highlightScreenshotToPath(`
+        const result = await highlightScreenshotToPath(
+            `
 using System.IO.Compression;
 
 #pragma warning disable 414, 3021
@@ -59,13 +76,18 @@ namespace MyApplication
             return new List<int>(new int[] { 1, 2, 3 })
         }
     }
-}`, testPath('csharp.png'), true, await testTheme());
+}`,
+            testPath('csharp.png'),
+            true,
+            await testTheme(),
+        );
 
         expect(result.buffer).toBeDefined();
     });
 
     test('Test XML', async () => {
-        const result = await highlightScreenshotToPath(`
+        const result = await highlightScreenshotToPath(
+            `
 <?xml version="1.0" encoding="UTF-8"?>
 <breakfast_menu>
   <food>
@@ -134,8 +156,12 @@ namespace MyApplication
     <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
     <calories>950</calories>
   </food>
-</breakfast_menu>`, testPath('xml.png'), true, await testTheme());
+</breakfast_menu>`,
+            testPath('xml.png'),
+            true,
+            await testTheme(),
+        );
 
         expect(result.buffer).toBeDefined();
     });
-})
+});

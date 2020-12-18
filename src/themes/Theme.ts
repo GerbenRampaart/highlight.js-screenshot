@@ -1,4 +1,4 @@
 export interface Theme {
-    name: string,
-    cssPath: string,
+    name: string;
+    cssPath: string;
 }

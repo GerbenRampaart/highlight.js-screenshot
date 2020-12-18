@@ -1,7 +1,7 @@
-import { path } from "app-root-path";
-import { Theme } from "./Theme";
-import { promises } from "fs";
-import { join, parse } from "path";
+import { path } from 'app-root-path';
+import { Theme } from './Theme';
+import { promises } from 'fs';
+import { join, parse } from 'path';
 
 export const getThemes = async (): Promise<Theme[]> => {
     const stylesDir = join(path, 'node_modules', 'highlight.js', 'styles');
@@ -16,4 +16,4 @@ export const getThemes = async (): Promise<Theme[]> => {
                 cssPath: join(stylesDir, f),
             };
         });
-}
+};
