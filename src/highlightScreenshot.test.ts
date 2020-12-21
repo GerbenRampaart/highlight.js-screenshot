@@ -166,4 +166,105 @@ namespace MyApplication
 
         expect(result.buffer).toBeDefined();
     });
+
+    test('Test Go', async () => {
+        const result = await highlightScreenshotToPath(
+            `func SampleParallelWorkflow(ctx workflow.Context) ([]string, error) {
+  logger := workflow.GetLogger(ctx)
+  defer logger.Info("Workflow completed.")
+
+  ao := workflow.ActivityOptions{
+    ScheduleToStartTimeout: time.Minute,
+    StartToCloseTimeout:    time.Minute,
+    HeartbeatTimeout:       time.Second * 20,
+  }
+  ctx = workflow.WithActivityOptions(ctx, ao)
+
+  future1, settable1 := workflow.NewFuture(ctx)
+  workflow.Go(ctx, func(ctx workflow.Context) {
+    defer logger.Info("First goroutine completed.")
+
+    var results []string
+    var result string
+    err := workflow.ExecuteActivity(ctx, SampleActivity, "branch1.1").Get(ctx, &result)
+    if err != nil {
+      settable1.SetError(err)
+      return
+    }
+    results = append(results, result)
+    err = workflow.ExecuteActivity(ctx, SampleActivity, "branch1.2").Get(ctx, &result)
+    if err != nil {
+      settable1.SetError(err)
+      return
+    }
+    results = append(results, result)
+    settable1.SetValue(results)
+  })
+
+  future2, settable2 := workflow.NewFuture(ctx)
+  workflow.Go(ctx, func(ctx workflow.Context) {
+    defer logger.Info("Second goroutine completed.")
+
+    var result string
+    err := workflow.ExecuteActivity(ctx, SampleActivity, "branch2").Get(ctx, &result)
+    settable2.Set(result, err)
+  })
+
+  var results []string
+  // Future.Get returns error from Settable.SetError
+  // Note that the first goroutine puts a slice into the settable while the second a string value
+  err := future1.Get(ctx, &results)
+  if err != nil {
+    return nil, err
+  }
+  var result string
+  err = future2.Get(ctx, &result)
+  if err != nil {
+    return nil, err
+  }
+  results = append(results, result)
+
+  return results, nil
+}`,
+            testPath('go.png'),
+            true,
+            await testTheme(),
+        );
+
+        expect(result.buffer).toBeDefined();
+    });
+
+    test('Test Python', async () => {
+        const result = await highlightScreenshotToPath(
+            `def jpeg_res(filename):
+  """"This function prints the resolution of the jpeg image file passed into it"""
+
+  # open image for reading in binary mode
+  with open(filename,'rb') as img_file:
+
+      # height of image (in 2 bytes) is at 164th position
+      img_file.seek(163)
+
+      # read the 2 bytes
+      a = img_file.read(2)
+
+      # calculate height
+      height = (a[0] << 8) + a[1]
+
+      # next 2 bytes is width
+      a = img_file.read(2)
+
+      # calculate width
+      width = (a[0] << 8) + a[1]
+
+  print("The resolution of the image is",width,"x",height)
+
+jpeg_res("img1.jpg")`,
+            testPath('python.png'),
+            true,
+            await testTheme(),
+        );
+
+        expect(result.buffer).toBeDefined();
+    });
 });

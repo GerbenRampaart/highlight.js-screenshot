@@ -19,15 +19,19 @@ const result = await highlightScreenshotToPath(
 
 You can also use __highlightScreenshotToBuffer__. Which just returns the buffer of the image and does not write it to disk.
 
-Here are some examples from different languages with different themes:
+Here are some examples from different languages with different (randomized) themes:
+
+![Alt text](README.md_images/python.png?raw=true "Python")
 
 ![Alt text](README.md_images/javascript.png?raw=true "Javascript")
-
-![Alt text](README.md_images/csharp.png?raw=true "CSharp")
 
 ![Alt text](README.md_images/json.png?raw=true "JSON")
 
 ![Alt text](README.md_images/xml.png?raw=true "Xml")
+
+![Alt text](README.md_images/go.png?raw=true "Go")
+
+![Alt text](README.md_images/csharp.png?raw=true "CSharp")
 
 ## What languages can I supply?
 If you don't supply any it autodetects, but if you want to force a language you can supply all languages listed here:

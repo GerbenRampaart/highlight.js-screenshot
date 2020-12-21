@@ -1,3 +1,7 @@
+# 1.1.1
+- Updated examples inamges in README
+- Added tests for some more popular programming languages
+
 # 1.1.0
 - Minumum nodejs 10 because highlight.js has nodejs 10 as minimum
     - tsconfig outputs es2018 javascript (so node 10)
