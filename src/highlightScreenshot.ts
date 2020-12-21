@@ -1,37 +1,39 @@
 import { promises } from 'fs';
 import { highlightAuto } from 'highlight.js';
-import { EOL } from 'os';
 import { content } from './puppeteer/content';
 import { screenshot } from './puppeteer/screenshot';
-import { getThemeContent } from './themes/getTheme';
 import { getThemes } from './themes/getThemes';
+import { loadThemeContent } from './themes/loadThemeContent';
 import { Theme } from './themes/Theme';
 
 export interface HighlightScreenshotResult {
-    buffer?: Buffer;
+    buffer: Buffer;
     result: AutoHighlightResult;
-    themeUsed: string;
+    themeUsed: Theme;
 }
 
 export const highlightScreenshotToBuffer = async (
     code: string,
-    includeHeader = true,
+    includeHeader = false,
     themeName = 'default',
     languages?: string[],
 ): Promise<HighlightScreenshotResult> => {
     const highlighted = highlightAuto(code, languages);
     const themes = await getThemes();
-    const theme = await getThemeContent(themes, themeName);
+    const theme = themes.find((t: Theme) => t.name === themeName);
 
-    if (!highlighted.language) {
-        return {
-            result: highlighted,
-            buffer: undefined,
-            themeUsed: theme,
-        };
+    if (!theme) {
+        const themeStrings = themes.map((t: Theme) => t.name);
+        throw new Error(`Theme '${themeName}' not found. Available themes: ${themeStrings.join(', ')}`);
     }
 
-    const htmlString = content(highlighted.value.trim(), theme, highlighted.language, includeHeader);
+    if (!highlighted.language) {
+        throw new Error('Could not determine language');
+    }
+
+    await loadThemeContent(theme);
+
+    const htmlString = content(highlighted.value, theme, highlighted.language, includeHeader);
     const buffer = await screenshot(htmlString);
 
     return {
@@ -44,15 +46,11 @@ export const highlightScreenshotToBuffer = async (
 export const highlightScreenshotToPath = async (
     code: string,
     path: string,
-    includeHeader = true,
+    includeHeader = false,
     themeName = 'default',
     languages?: string[],
 ): Promise<HighlightScreenshotResult> => {
     const result = await highlightScreenshotToBuffer(code, includeHeader, themeName, languages);
-
-    if (result.buffer) {
-        await promises.writeFile(path, result.buffer, 'utf-8');
-    }
-
+    await promises.writeFile(path, result.buffer, 'utf-8');
     return result;
 };

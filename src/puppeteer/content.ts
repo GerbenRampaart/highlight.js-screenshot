@@ -1,5 +1,7 @@
-export const content = (code: string, css: string, lang: string, includeHeader: boolean) => {
-    const msg = `${lang} ${new Date().toLocaleString()}`;
+import { Theme } from '../themes/Theme';
+
+export const content = (code: string, theme: Theme, lang: string, includeHeader: boolean) => {
+    const msg = `language <b>${lang}</b>. theme <b>${theme.name}</b>. generated </b>${new Date().toLocaleString()}</b>`;
     return `
         <html>
             <style>
@@ -10,8 +12,9 @@ export const content = (code: string, css: string, lang: string, includeHeader: 
                     padding: 5px;
                     text-align:center;
                     font-family: Arial, Helvetica, sans-serif;
+                    font-size: 6px;
                 }
-                ${css}
+                ${theme.css}
             </style>
             <body>
                 <div id='code_block' style='display:inline-block;'>

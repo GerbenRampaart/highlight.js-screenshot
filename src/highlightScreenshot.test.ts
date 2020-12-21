@@ -12,6 +12,11 @@ const testTheme = async (): Promise<string> => {
 };
 
 describe('Trying some code', () => {
+    test('Test something', async () => {
+        const result = await highlightScreenshotToPath(`something`, testPath('something.png'), true);
+
+        expect(result.buffer).toBeDefined();
+    });
     test('Test javascript', async () => {
         const result = await highlightScreenshotToPath(
             `console.log('test');`,
@@ -26,8 +31,7 @@ describe('Trying some code', () => {
 
     test('Test JSON', async () => {
         const result = await highlightScreenshotToPath(
-            `
-{
+            `{
     "glossary": {
         "title": "example glossary",
         "GlossDiv": {
@@ -59,8 +63,7 @@ describe('Trying some code', () => {
 
     test('Test CSharp', async () => {
         const result = await highlightScreenshotToPath(
-            `
-using System.IO.Compression;
+            `using System.IO.Compression;
 
 #pragma warning disable 414, 3021
 
@@ -87,8 +90,7 @@ namespace MyApplication
 
     test('Test XML', async () => {
         const result = await highlightScreenshotToPath(
-            `
-<?xml version="1.0" encoding="UTF-8"?>
+            `<?xml version="1.0" encoding="UTF-8"?>
 <breakfast_menu>
   <food>
     <name>Belgian Waffles</name>
